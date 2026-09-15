@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue'
 import api from '@/services/api'
+import BarraLateralDocente from '@/components/layout/BarraLateralDocente.vue'
 import { useFiltrosDashboard } from '@/composables/useFiltrosDashboard'
 import TarjetasResumen from '@/components/dashboard/TarjetasResumen.vue'
 import HeatmapRendimiento from '@/components/dashboard/HeatmapRendimiento.vue'
@@ -59,54 +60,69 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="reportes">
-    <h1>Dashboard de Rendimiento</h1>
+  <div class="layout-docente">
+    <BarraLateralDocente />
+    <main class="reportes">
+      <h1>Reportes</h1>
 
-    <div class="filtros">
-      <label>
-        Sección
-        <select v-model="seccionId">
-          <option v-for="s in secciones" :key="s.id" :value="s.id">{{ s.nombre }}</option>
-        </select>
-      </label>
+      <div class="filtros">
+        <label>
+          Sección
+          <select v-model="seccionId">
+            <option v-for="s in secciones" :key="s.id" :value="s.id">{{ s.nombre }}</option>
+          </select>
+        </label>
 
-      <label>
-        Tema
-        <select v-model="temaId">
-          <option :value="null">Todos</option>
-          <option v-for="t in temas" :key="t.id" :value="t.id">{{ t.titulo }}</option>
-        </select>
-      </label>
+        <label>
+          Tema
+          <select v-model="temaId">
+            <option :value="null">Todos</option>
+            <option v-for="t in temas" :key="t.id" :value="t.id">{{ t.titulo }}</option>
+          </select>
+        </label>
 
-      <label>
-        Buscar alumno
-        <input v-model="busquedaAlumno" placeholder="Nombre..." />
-      </label>
+        <label>
+          Buscar alumno
+          <input v-model="busquedaAlumno" placeholder="Nombre..." />
+        </label>
 
-      <label>
-        Alumno (puntos débiles individuales)
-        <select v-model="estudianteId">
-          <option :value="null">Vista de todo el salón</option>
-          <option v-for="e in estudiantes" :key="e.id" :value="e.id">{{ e.nombre }}</option>
-        </select>
-      </label>
-    </div>
+        <label>
+          Alumno (puntos débiles individuales)
+          <select v-model="estudianteId">
+            <option :value="null">Vista de todo el salón</option>
+            <option v-for="e in estudiantes" :key="e.id" :value="e.id">{{ e.nombre }}</option>
+          </select>
+        </label>
+      </div>
 
-    <div v-if="!cargando" class="contenido">
-      <TarjetasResumen :resumen="resumen" />
-      <ConceptosCriticos
-        :conceptos="puntosDebiles"
-        :titulo="estudianteId ? 'Puntos débiles del alumno' : 'Puntos débiles del salón'"
-      />
-      <HeatmapRendimiento v-if="!estudianteId" :filas="heatmap" />
-      <EvolucionMensual v-if="!estudianteId" :series="evolucion" />
-    </div>
-    <div v-else class="cargando">Cargando reportes...</div>
+      <div v-if="!cargando" class="contenido">
+        <TarjetasResumen :resumen="resumen" />
+        <ConceptosCriticos
+          :conceptos="puntosDebiles"
+          :titulo="estudianteId ? 'Puntos débiles del alumno' : 'Puntos débiles del salón'"
+        />
+        <HeatmapRendimiento v-if="!estudianteId" :filas="heatmap" />
+        <EvolucionMensual v-if="!estudianteId" :series="evolucion" />
+      </div>
+      <div v-else class="cargando">Cargando reportes...</div>
+    </main>
   </div>
 </template>
 
 <style scoped>
-.reportes { padding: 24px; background: #f4f6f9; min-height: 100vh; }
+.layout-docente {
+  display: flex;
+  min-height: 100vh;
+}
+
+.reportes {
+  flex: 1;
+  margin-left: 72px;
+  padding: 24px;
+  background: #f4f6f9;
+  min-height: 100vh;
+}
+
 .filtros { display: flex; gap: 20px; margin-bottom: 24px; flex-wrap: wrap; }
 .filtros label { display: flex; flex-direction: column; gap: 4px; font-size: 0.85rem; font-weight: 600; }
 .filtros select, .filtros input { padding: 8px; border-radius: 6px; border: 1px solid #ccc; min-width: 180px; }

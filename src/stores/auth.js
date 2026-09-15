@@ -1,32 +1,41 @@
-import { defineStore } from 'pinia'
-import { jwtDecode } from 'jwt-decode'
-import axios from 'axios'
+import { defineStore } from "pinia";
+import { jwtDecode } from "jwt-decode";
+import api from "@/services/api";
 
-export const useAuthStore = defineStore('auth', {
+export const useAuthStore = defineStore("auth", {
   state: () => ({
-    accessToken: localStorage.getItem('access_token') || null,
-    refreshToken: localStorage.getItem('refresh_token') || null,
-    rol: localStorage.getItem('rol') || null,
+    access: localStorage.getItem("access") || null,
+    refresh: localStorage.getItem("refresh") || null,
+    rol: localStorage.getItem("rol") || null,
+    username: localStorage.getItem("username") || null,
   }),
+
+  getters: {
+    estaAutenticado: (state) => !!state.access,
+  },
+
   actions: {
     async login(username, password) {
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_API_URL}/auth/login/`,
-        { username, password }
-      )
-      this.accessToken = data.access
-      this.refreshToken = data.refresh
-      this.rol = jwtDecode(data.access).rol
+      const { data } = await api.post("/auth/login/", { username, password });
+      const payload = jwtDecode(data.access);
 
-      localStorage.setItem('access_token', data.access)
-      localStorage.setItem('refresh_token', data.refresh)
-      localStorage.setItem('rol', this.rol)
+      this.access = data.access;
+      this.refresh = data.refresh;
+      this.rol = payload.rol;
+      this.username = username;
+
+      localStorage.setItem("access", data.access);
+      localStorage.setItem("refresh", data.refresh);
+      localStorage.setItem("rol", payload.rol);
+      localStorage.setItem("username", username);
     },
+
     logout() {
-      this.accessToken = null
-      this.refreshToken = null
-      this.rol = null
-      localStorage.clear()
+      this.access = null;
+      this.refresh = null;
+      this.rol = null;
+      this.username = null;
+      localStorage.clear();
     },
   },
-})
+});

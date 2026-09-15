@@ -1,0 +1,36 @@
+{
+  "hello": "Biology how science",
+  "app": { "titulo": "Gamified Biology" },
+  "comun": {
+    "comenzar": "Start!",
+    "guardar": "Save",
+    "cancelar": "Cancel",
+    "siguiente": "Next",
+    "atras": "Back",
+    "cargando": "Loading..."
+  },
+  "mapa": {
+    "vidas": "lives",
+    "monedas": "coins"
+  },
+  "onboarding": {
+    "titulo": "Tell us about yourself",
+    "paso": "Step {actual} of {total}",
+    "nombre_label": "What's your name?",
+    "nombre_placeholder": "Your username",
+    "nombre_error": "Use only letters and numbers, no spaces or symbols.",
+    "edad_label": "How old are you?",
+    "edad_placeholder": "Choose your age",
+    "nivel_label": "How good are you at Biology?",
+    "nivel_bueno": "Good",
+    "nivel_regular": "Average",
+    "nivel_malo": "Poor",
+    "finalizar": "Finish and enter the map"
+  },
+  "idioma": {
+    "selector_label": "Language",
+    "es_es": "Español (España)",
+    "es_pe": "Español (Perú)",
+    "en": "English"
+  }
+}

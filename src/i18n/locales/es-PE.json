@@ -1,0 +1,35 @@
+{
+  "app": { "titulo": "Biología Gamificada" },
+  "comun": {
+    "comenzar": "¡Empezar!",
+    "guardar": "Guardar",
+    "cancelar": "Cancelar",
+    "siguiente": "Siguiente",
+    "atras": "Atrás",
+    "cargando": "Cargando..."
+  },
+  "mapa": {
+    "vidas": "vidas",
+    "monedas": "monedas"
+  },
+  "onboarding": {
+    "titulo": "Cuéntanos sobre ti",
+    "paso": "Paso {actual} de {total}",
+    "nombre_label": "¿Cómo te llamas?",
+    "nombre_placeholder": "Tu nombre de usuario",
+    "nombre_error": "Usa solo letras y números, sin espacios ni símbolos.",
+    "edad_label": "¿Cuántos años tienes?",
+    "edad_placeholder": "Elige tu edad",
+    "nivel_label": "¿Qué tan buen alumno eres en Biología?",
+    "nivel_bueno": "Bueno",
+    "nivel_regular": "Regular",
+    "nivel_malo": "Malo",
+    "finalizar": "Terminar y entrar al mapa"
+  },
+  "idioma": {
+    "selector_label": "Idioma",
+    "es_es": "Español (España)",
+    "es_pe": "Español (Perú)",
+    "en": "English"
+  }
+}
