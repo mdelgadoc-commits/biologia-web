@@ -112,7 +112,7 @@
     "phone_ph": "+51 987 654 321",
     "phone_ok": "Valid phone number.",
     "phone_bad": "Enter a valid phone number (9 to 15 digits).",
-    "password_label": "Create a password",
+    "password_label": "What password will you use to enter the game?",
     "password_hint": "At least 7 characters, no spaces and 2 uppercase letters.",
     "password_ph": "Your secure password",
     "password_ok": "Valid password.",

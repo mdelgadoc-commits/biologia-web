@@ -112,7 +112,7 @@
     "phone_ph": "+51 987 654 321",
     "phone_ok": "Telefone válido.",
     "phone_bad": "Digite um número de telefone válido (entre 9 e 15 dígitos).",
-    "password_label": "Crie uma senha",
+    "password_label": "Qual senha você vai usar para entrar no jogo?",
     "password_hint": "Pelo menos 7 caracteres sem espaços e 2 letras maiúsculas.",
     "password_ph": "Sua senha segura",
     "password_ok": "Senha válida.",
