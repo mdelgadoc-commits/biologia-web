@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Vue 3 SPA (Vite + Pinia + Vue Router) in plain JavaScript (no TypeScript). UI labels, variable names, and commit messages are in Spanish. Requires Node `^22.18.0 || >=24.12.0` (see `engines`).
+Vue 3 SPA (Vite + Pinia + Vue Router) in plain JavaScript (no TypeScript). UI labels, variable names, and commit messages are in Spanish. Requires Node `^20.19.0 || ^22.12.0 || >=24.0.0` (see `engines`).
 
 ## Commands
 

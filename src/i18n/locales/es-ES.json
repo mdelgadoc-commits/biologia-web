@@ -11,7 +11,7 @@
   },
   "mapa": {
     "vidas": "vidas",
-    "monedas": "monedas"
+    "monedas": "Bio-Bits"
   },
   "onboarding": {
     "titulo": "Cuéntanos sobre ti",
@@ -21,6 +21,9 @@
     "nombre_error": "Usa solo letras y números, sin espacios ni símbolos.",
     "edad_label": "¿Cuántos años tienes?",
     "edad_placeholder": "Elige tu edad",
+    "rango_edad1": "7-12 años",
+    "rango_edad2": "13-19 años",
+    "rango_edad3": "20 años a más",
     "nivel_label": "¿Qué tan buen alumno eres en Biología?",
     "nivel_bueno": "Bueno",
     "nivel_regular": "Regular",
@@ -30,7 +33,8 @@
   "idioma": {
     "selector_label": "Idioma",
     "es_es": "Español (España)",
-    "es_pe": "Español (Perú)",
-    "en": "English"
+    "es_pe": "Español (castellano)",
+    "en": "Inglés (EEUU)",
+    "pt": "Portugués"
   }
 }

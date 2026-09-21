@@ -10,7 +10,7 @@
   },
   "mapa": {
     "vidas": "vidas",
-    "monedas": "monedas"
+    "monedas": "Bio-bits"
   },
   "onboarding": {
     "titulo": "Cuéntanos sobre ti",
@@ -29,7 +29,8 @@
   "idioma": {
     "selector_label": "Idioma",
     "es_es": "Español (España)",
-    "es_pe": "Español (Perú)",
-    "en": "English"
+    "es_pe": "Español (castellano)",
+    "en": "Inglés (EEUU)",
+    "pt": "Portugués"
   }
 }

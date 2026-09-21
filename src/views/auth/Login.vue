@@ -1,5 +1,6 @@
 <template>
   <div class="login-container">
+    <SelectorIdioma />
     <h1>{{ $t('hello') }}</h1>
     <form @submit.prevent="entrar">
       <div class="input-group">
@@ -50,6 +51,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
+import SelectorIdioma from "@/components/SelectorIdioma.vue";
 
 const username = ref("");
 const password = ref("");
@@ -66,7 +68,7 @@ async function entrar() {
   try {
     await auth.login(username.value, password.value);
     router.push(auth.rol === "docente" ? "/docente" : "/estudiante");
-  } catch (e) {
+  } catch {
     error.value = "Usuario o contraseña incorrectos";
   } finally {
     cargando.value = false;
