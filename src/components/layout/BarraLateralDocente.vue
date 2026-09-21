@@ -12,6 +12,10 @@ import { RouterLink } from "vue-router";
       <span class="icono">📊</span>
       <span class="etiqueta">Reportes</span>
     </RouterLink>
+    <RouterLink to="/docente/preguntas" class="item" title="Preguntas">
+      <span class="icono">❓</span>
+      <span class="etiqueta">Preguntas</span>
+    </RouterLink>
   </aside>
 </template>
 

@@ -1,5 +1,6 @@
 <template>
   <div class="layout">
+    <BarraLateralDocente />
     <div class="topbar">
       <BotonSesion etiqueta="Cerrar cuenta" variante="grande" />
     </div>
@@ -9,6 +10,7 @@
 
 <script setup>
 import BotonSesion from "@/components/BotonSesion.vue";
+import BarraLateralDocente from "@/components/layout/BarraLateralDocente.vue";
 </script>
 
 <style scoped>

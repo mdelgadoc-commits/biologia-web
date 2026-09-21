@@ -1,7 +1,6 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue'
 import api from '@/services/api'
-import BarraLateralDocente from '@/components/layout/BarraLateralDocente.vue'
 import { useFiltrosDashboard } from '@/composables/useFiltrosDashboard'
 import TarjetasResumen from '@/components/dashboard/TarjetasResumen.vue'
 import HeatmapRendimiento from '@/components/dashboard/HeatmapRendimiento.vue'
@@ -60,10 +59,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="layout-docente">
-    <BarraLateralDocente />
-    <main class="reportes">
-      <h1>Reportes</h1>
+  <div class="reportes">
+    <h1>Reportes</h1>
 
       <div class="filtros">
         <label>
@@ -104,19 +101,12 @@ onMounted(async () => {
         <HeatmapRendimiento v-if="!estudianteId" :filas="heatmap" />
         <EvolucionMensual v-if="!estudianteId" :series="evolucion" />
       </div>
-      <div v-else class="cargando">Cargando reportes...</div>
-    </main>
-  </div>
+      <div class="cargando" v-else>Cargando reportes...</div>
+</div>
 </template>
 
 <style scoped>
-.layout-docente {
-  display: flex;
-  min-height: 100vh;
-}
-
 .reportes {
-  flex: 1;
   margin-left: 72px;
   padding: 24px;
   background: #f4f6f9;

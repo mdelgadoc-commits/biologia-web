@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <SelectorIdioma />
-    <h1>{{ $t('hello') }}</h1>
+    <h1>{{ $t('app.titulo') }}</h1>
     <form @submit.prevent="entrar">
       <div class="input-group">
         <input 
@@ -39,8 +39,15 @@
       </div>
 
       <button type="submit" class="btn-submit" :disabled="cargando">
-        {{ cargando ? "Ingresando..." : "COMENZAR" }}
+        {{ cargando ? t("login.ingresando") : t("login.comenzar") }}
       </button>
+
+      <p class="crear-cuenta-sec">
+        <span>{{ $t('crearCuenta.no_cuenta') }}</span>
+        <button type="button" class="btn-crear-cuenta" @click="irACrearCuenta">
+          {{ $t('crearCuenta.submit') }}
+        </button>
+      </p>
 
       <p v-if="error" class="error">{{ error }}</p>
     </form>
@@ -49,6 +56,7 @@
 
 <script setup>
 import { ref } from "vue";
+import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import SelectorIdioma from "@/components/SelectorIdioma.vue";
@@ -60,6 +68,7 @@ const cargando = ref(false);
 const error = ref("");
 
 const router = useRouter();
+const { t } = useI18n();
 const auth = useAuthStore();
 
 async function entrar() {
@@ -68,11 +77,19 @@ async function entrar() {
   try {
     await auth.login(username.value, password.value);
     router.push(auth.rol === "docente" ? "/docente" : "/estudiante");
-  } catch {
-    error.value = "Usuario o contraseña incorrectos";
+  } catch (err) {
+    const detalle = err?.response?.data?.detail;
+    error.value =
+      detalle && detalle.includes("No active account")
+        ? t("login.no_registrada")
+        : t("login.credenciales_incorrectas");
   } finally {
     cargando.value = false;
   }
+}
+
+function irACrearCuenta() {
+  router.push("/crear-cuenta");
 }
 </script>
 
@@ -141,5 +158,32 @@ input {
   color: #ef4444;
   margin-top: 14px;
   font-weight: bold;
+}
+
+.crear-cuenta-sec {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.btn-crear-cuenta {
+  width: 100%;
+  padding: 12px;
+  background: #ffffff;
+  color: #1f2937;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.btn-crear-cuenta:hover {
+  border-color: #f5a623;
+  color: #f5a623;
 }
 </style>

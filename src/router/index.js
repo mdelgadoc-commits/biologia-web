@@ -8,6 +8,11 @@ const routes = [
     component: () => import("@/views/auth/Login.vue"),
   },
   {
+    path: "/crear-cuenta",
+    name: "crear-cuenta",
+    component: () => import("@/views/auth/CrearCuenta.vue"),
+  },
+  {
     path: "/estudiante",
     component: () => import("@/layouts/EstudianteLayout.vue"),
     meta: { requiresAuth: true, rol: "estudiante" },
@@ -18,10 +23,13 @@ const routes = [
   },
   {
     path: "/docente",
+    redirect: "/docente/dashboard",
     component: () => import("@/layouts/DocenteLayout.vue"),
     meta: { requiresAuth: true, rol: "docente" },
     children: [
-      { path: "", name: "docente-dashboard", component: () => import("@/views/docente/Dashboard.vue") },
+      { path: "dashboard", name: "docente-dashboard", component: () => import("@/views/docente/Dashboard.vue") },
+      { path: "reportes", name: "docente-reportes", component: () => import("@/views/docente/Reportes.vue") },
+      { path: "preguntas", name: "docente-preguntas", component: () => import("@/views/docente/GestionPreguntas.vue") },
     ],
   },
   { path: "/", redirect: "/login" },

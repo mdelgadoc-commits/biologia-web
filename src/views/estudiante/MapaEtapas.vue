@@ -9,24 +9,29 @@
       ></span>
     </div>
 
-    <div v-if="cargando" class="cargando">Cargando el mapa...</div>
+    <div v-if="cargando" class="cargando">{{ t("mapa.cargando") }}</div>
 
     <template v-else>
       <header class="topbar">
-        <button class="back-btn" aria-label="Volver" @click="volver">&larr;</button>
-        <div class="topbar-info">
-          <p class="eyebrow">NIVEL {{ nivel }}</p>
-          <h2 class="topbar-title">{{ etapa }}</h2>
+        <div class="topbar-fila-superior">
+          <button class="back-btn" :aria-label="t('mapa.volver')" @click="cerrarSesion">&larr;</button>
+          <div class="topbar-info">
+            <p class="eyebrow">{{ t("mapa.nivel", { nivel }) }}</p>
+            <h2 class="topbar-title">{{ etapa }}</h2>
+          </div>
+          <button class="salir-btn" @click="cerrarSesion">{{ t("mapa.salir") }}</button>
         </div>
-        <div class="progress-track">
-          <div class="progress-fill" :style="{ width: progresoCss }"></div>
+        <div class="topbar-fila-progreso">
+          <div class="progress-track">
+            <div class="progress-fill" :style="{ width: progresoCss }"></div>
+          </div>
+          <span class="progress-label">{{ completados.size }} / {{ temas.length }}</span>
         </div>
-        <span class="progress-label">{{ completados.size }} / {{ temas.length }}</span>
       </header>
 
       <section class="hero">
-        <h1>La vida es un viaje</h1>
-        <p>Recorre los distintos hitos del nivel y desbloquea cada estación.</p>
+        <h1>{{ t("mapa.hero_titulo") }}</h1>
+        <p>{{ t("mapa.hero_sub") }}</p>
       </section>
 
       <div class="map-wrap">
@@ -64,7 +69,7 @@
         </div>
 
         <section class="extras">
-          <h2 class="extras-titulo">Retos extra</h2>
+          <h2 class="extras-titulo">{{ t("mapa.retos_extra") }}</h2>
           <div class="extras-grid">
             <button class="extras-card extra-copito" @click="abrirJuego('vf')">
             <div class="extras-icono">
@@ -76,7 +81,7 @@
             </div>
             <div class="extras-info">
               <span class="extras-nombre">Copito</span>
-              <span class="extras-sub">Verdadero o falso</span>
+              <span class="extras-sub">{{ t("juego.copito_sub") }}</span>
               <span class="extras-estrellas" v-html="renderEstrellas(mejoresEstrellas.vf)"></span>
             </div>
           </button>
@@ -89,8 +94,8 @@
               </svg>
             </div>
             <div class="extras-info">
-              <span class="extras-nombre">Examen</span>
-              <span class="extras-sub">Repaso del nivel</span>
+              <span class="extras-nombre">{{ t("juego.examen") }}</span>
+              <span class="extras-sub">{{ t("juego.examen_sub") }}</span>
               <span class="extras-estrellas" v-html="renderEstrellas(mejoresEstrellas.mcq)"></span>
             </div>
           </button>
@@ -101,7 +106,7 @@
 
     <div v-if="estacionActiva" class="modal-scrim" @click.self="cerrarModal">
       <div class="modal-card">
-        <button class="modal-close" aria-label="Cerrar" @click="cerrarModal">&times;</button>
+        <button class="modal-close" :aria-label="t('mapa.cerrar')" @click="cerrarModal">&times;</button>
         <div class="modal-icon" :style="{ color: colorEstacion(estacionActiva.index) }">
           <span v-html="iconoEstacion(estacionActiva.index)"></span>
         </div>
@@ -109,13 +114,13 @@
         <p class="modal-sub">{{ SUBTITULOS[estacionActiva.index % SUBTITULOS.length] }}</p>
         <div class="modal-cuerpo" v-html="cuerpoLeccion(estacionActiva.index)"></div>
         <div class="modal-acciones">
-          <button class="btn btn-secundario" @click="cerrarModal">Más tarde</button>
+          <button class="btn btn-secundario" @click="cerrarModal">{{ t("mapa.mas_tarde") }}</button>
           <button
             class="btn btn-primary"
             @click="marcarCompletado"
             :disabled="estadoDe(estacionActiva.tema, estacionActiva.index) === 'done'"
           >
-            Marcar como completado
+            {{ t("mapa.marcar_completado") }}
           </button>
         </div>
       </div>
@@ -123,11 +128,11 @@
 
     <div v-if="juegoAbierto" class="modal-scrim" @click.self="juegoAbierto.terminado && cerrarJuego()">
       <div class="modal-card juego-card">
-        <button class="modal-close" aria-label="Cerrar" @click="cerrarJuego">&times;</button>
+        <button class="modal-close" :aria-label="t('mapa.cerrar')" @click="cerrarJuego">&times;</button>
         <header class="juego-head">
-          <span class="juego-titulo">{{ NOMBRES_JUEGO[juegoAbierto.tipo] }}</span>
+          <span class="juego-titulo">{{ nombreJuego(juegoAbierto.tipo) }}</span>
           <span class="juego-progreso">
-            {{ juegoAbierto.terminado ? "Finalizado" : `${juegoAbierto.indice + 1} / ${juegoAbierto.preguntas.length}` }}
+            {{ juegoAbierto.terminado ? t("juego.finalizado") : `${juegoAbierto.indice + 1} / ${juegoAbierto.preguntas.length}` }}
           </span>
         </header>
 
@@ -153,7 +158,7 @@
         </div>
 
         <div v-if="!juegoAbierto.terminado" class="pista">
-          {{ juegoAbierto.tipo === "vf" ? "Elige la opción correcta." : "Selecciona la respuesta correcta." }}
+          {{ juegoAbierto.tipo === "vf" ? t("juego.pista_vf") : t("juego.pista_mcq") }}
         </div>
       </div>
     </div>
@@ -162,8 +167,10 @@
 
 <script setup>
 import { ref, computed, onMounted, nextTick } from "vue";
+import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import api from "@/services/api";
+import { useAuthStore } from "@/stores/auth";
 
 const POSICIONES = [
   { left: 50, top: 90.5 },
@@ -223,7 +230,7 @@ const MCQ_POOL = [
   { q: "Una idea clave de la biología es que toda la vida comparte:", opciones: ["El mismo tamaño", "El mismo hábitat", "Un origen y código genético común", "El mismo número de células"], respuesta: 2 },
 ];
 
-const NOMBRES_JUEGO = { vf: "Juego de Copito", mcq: "Examen" };
+const NOMBRES_JUEGO = { vf: "juego.copito", mcq: "juego.examen" };
 const PREGUNTAS_POR_JUEGO = 5;
 const SS_KEY = "biologia_mapa_etapa_1";
 const SS_KEY_EXTRA = "biologia_mapa_extra";
@@ -239,6 +246,8 @@ const SIMULADOS = {
 };
 
 const router = useRouter();
+const { t } = useI18n();
+const auth = useAuthStore();
 const nivel = 1;
 
 const etapa = ref("");
@@ -303,7 +312,7 @@ function iconoEstacion(index) {
 }
 
 function cuerpoLeccion(index) {
-  return CUERPOS_LECCION[index] ?? "<p>Explora esta estación y completa el reto para avanzar.</p>";
+  return CUERPOS_LECCION[index] ?? t("mapa.explora_estacion");
 }
 
 function abrirEstacion(tema, index) {
@@ -331,6 +340,10 @@ function completarEstacion(index) {
   iluminarCamino();
 }
 
+function nombreJuego(tipo) {
+  return t(NOMBRES_JUEGO[tipo] ?? NOMBRES_JUEGO.mcq);
+}
+
 function abrirJuego(tipo) {
   const pool = tipo === "vf" ? TF_POOL : MCQ_POOL;
   const seleccion = mezclar(pool).slice(0, PREGUNTAS_POR_JUEGO).map((pregunta) => {
@@ -338,8 +351,8 @@ function abrirJuego(tipo) {
       return {
         q: pregunta.q,
         opciones: [
-          { texto: "Verdadero", esCorrecta: pregunta.a === true },
-          { texto: "Falso", esCorrecta: pregunta.a === false },
+          { texto: t("juego.verdadero"), esCorrecta: pregunta.a === true },
+          { texto: t("juego.falso"), esCorrecta: pregunta.a === false },
         ],
       };
     }
@@ -410,10 +423,10 @@ function renderEstrellas(aciertos) {
 }
 
 function mensajeResultado(aciertos) {
-  if (aciertos === PREGUNTAS_POR_JUEGO) return "¡Perfecto! Dominas esta estación.";
-  if (aciertos >= 4) return "¡Muy bien! Solo te faltó un poco.";
-  if (aciertos >= 3) return "Buen trabajo, puedes mejorar.";
-  return "Sigue practicando, lo lograrás.";
+  if (aciertos === PREGUNTAS_POR_JUEGO) return t("juego.resultado_perfecto");
+  if (aciertos >= 4) return t("juego.resultado_muy_bien");
+  if (aciertos >= 3) return t("juego.resultado_buen_trabajo");
+  return t("juego.resultado_sigue_practicando");
 }
 
 function cerrarJuego() {
@@ -462,7 +475,8 @@ function iluminarCamino() {
   lit.style.strokeDasharray = `${largo * fraccion} ${largo}`;
 }
 
-function volver() {
+function cerrarSesion() {
+  auth.logout();
   router.push("/login");
 }
 
@@ -537,15 +551,28 @@ onMounted(cargarMapa);
   position: sticky;
   top: 0;
   z-index: 5;
-  display: grid;
-  grid-template-columns: auto 1fr 1fr;
-  align-items: center;
-  gap: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   padding: 12px 18px;
   border: 1px solid rgba(148, 163, 184, 0.14);
   border-radius: 16px;
   background: rgba(11, 16, 32, 0.72);
   backdrop-filter: blur(12px);
+}
+
+.topbar-fila-superior {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+}
+
+.topbar-fila-progreso {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 14px;
 }
 
 .back-btn {
@@ -565,6 +592,24 @@ onMounted(cargarMapa);
 .back-btn:hover {
   background: rgba(148, 163, 184, 0.12);
   transform: translateX(-2px);
+}
+
+.salir-btn {
+  padding: 9px 14px;
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.12);
+  color: #fca5a5;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.salir-btn:hover {
+  background: rgba(239, 68, 68, 0.22);
 }
 
 .eyebrow {

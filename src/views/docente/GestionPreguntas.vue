@@ -204,7 +204,7 @@ onMounted(cargarDatos)
 </template>
 
 <style scoped>
-.gestion-preguntas { padding: 24px; color: #333; }
+.gestion-preguntas { padding: 24px; margin-left: 72px; color: #333; }
 .layout { display: grid; grid-template-columns: 420px 1fr; gap: 24px; align-items: start; }
 .form-pregunta, .listado { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
 label { display: flex; flex-direction: column; gap: 4px; margin-bottom: 14px; font-size: 0.9rem; font-weight: 600; }
