@@ -105,7 +105,7 @@
     "via_email": "Correo",
     "via_phone": "Teléfono",
     "email_label": "Correo electrónico",
-    "email_ph": "ana@correo.com",
+    "email_ph": "ingresar correo",
     "email_ok": "Correo válido.",
     "email_bad": "Ingresa un correo electrónico válido.",
     "phone_label": "Número de teléfono",

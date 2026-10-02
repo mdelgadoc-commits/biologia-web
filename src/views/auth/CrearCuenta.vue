@@ -187,7 +187,7 @@
                     type="email"
                     autocomplete="email"
                     spellcheck="false"
-                    :placeholder="t('crearCuenta.email_ph')"
+                    placeholder="tucorreo@ejemplo.com"
                     aria-describedby="hint-contacto msg-contacto"
                     @input="validar('contacto')"
                     @blur="validar('contacto')"
